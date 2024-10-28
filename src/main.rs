@@ -1,14 +1,60 @@
 use std::io;
 
+pub enum Player {
+    X,
+    O,
+}
+impl Player {
+    pub fn char(&self) -> char {
+        match self {
+            Player::X => 'X',
+            Player::O => 'O',
+        }
+    }
+    pub fn others(&self) -> Self {
+        match self {
+            Player::X => Player::O,
+            Player::O => Player::X,
+        }
+    }
+}
+
+pub fn get_winner(board: &[char; 9]) -> Option<Player> {
+    let winning_combinations: [[usize; 3]; 8] = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    let x = Player::X.char();
+
+    let o = Player::O.char();
+
+    for combo in winning_combinations {
+        let [a, b, c] = combo;
+
+        if board[a] != ' ' && board[a] == board[b] && board[b] == board[c] {
+            return match board[a] {
+                x => Some(Player::X),
+                o => Some(Player::O),
+                _ => None,
+            };
+        }
+    }
+    None
+}
+
 fn main() {
     let mut board = [' '; 9];
 
-    let players = ['X', 'O'];
-
-    let mut turn = 0;
-
+    print_board(board);
+    let mut player = Player::X;
     loop {
-        print!("Enter position for {}", players[turn]);
+        println!("Enter position for {}", player.char());
 
         let index = get_index_from_input();
 
@@ -24,20 +70,27 @@ fn main() {
             break;
         }
 
-        let index = index.unwrap();
+        if let Some(index) = index {
+            if board[index] != ' ' {
+                println!("The cell at positon {} is already occupied", index + 1);
 
-        if board[index] != ' ' {
-            println!("The cell at positon {} is already occupied", index + 1);
+                continue;
+            }
 
-            continue;
+            board[index] = player.char();
+
+            print_board(board);
+
+            if let Some(winner) = get_winner(&board) {
+                println!("Winner: {:?}", winner.char());
+            }
+
+            player = player.others();
+        } else {
+            break;
         }
-
-        board[index] = players[turn];
-
-        print_board(board);
-
-        turn = (turn + 1) % 2;
     }
+    todo!("Check for winner using get_winner function.")
 }
 
 fn print_board(board: [char; 9]) {
