@@ -16,7 +16,11 @@ impl Player {
         }
     }
 }
-pub fn get_winner(board: &mut Vec<Vec<Option<bool>>>) {}
+pub fn get_winner(board: &mut Vec<Vec<Option<bool>>>) {
+    for row in board {
+        match Some {}
+    }
+}
 fn main() {
     let mut board = vec![vec![None; 3]; 3];
     board[0][0] = Some(true);
