@@ -16,7 +16,7 @@ pub fn get_input() -> Result<Option<(usize, usize)>, String> {
         .read_line(&mut input)
         .map_err(|_| "Failed to read input".to_string())?;
 
-    let parts: Vec<&str> = input.trim().split_whitespace().collect();
+    let parts: Vec<&str> = input.split_whitespace().collect();
     if parts.len() != 2 {
         return Err("Invalid input. Please enter two numbers.".to_string());
     }
@@ -44,14 +44,14 @@ pub fn get_winner(board: &Vec<Vec<Option<bool>>>) -> GameResult {
 
     for i in 0..3_usize {
         // check columns
-        if &board[0][i] == &board[1][i] && &board[1][i] == &board[2][i] && board[0][i].is_some() {
+        if board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[0][i].is_some() {
             winner = board[0][i];
         }
         // check diagonals
-        if &board[0][0] == &board[1][1] && &board[1][1] == &board[2][2] && board[0][0].is_some() {
+        if board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0].is_some() {
             winner = board[0][0];
         }
-        if &board[0][2] == &board[1][1] && &board[1][1] == &board[2][0] && board[0][2].is_some() {
+        if board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2].is_some() {
             winner = board[0][2];
         }
     }

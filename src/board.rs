@@ -1,7 +1,7 @@
 use crate::player::Player;
 
 pub fn make_move(
-    board: &mut Vec<Vec<Option<bool>>>,
+    board: &mut [Vec<Option<bool>>],
     player: Player,
     row: usize,
     col: usize,
@@ -14,7 +14,7 @@ pub fn make_move(
     Ok(())
 }
 
-pub fn print_board(board: &Vec<Vec<Option<bool>>>) {
+pub fn print_board(board: &[Vec<Option<bool>>]) {
     println!("\n    0   1   2");
     println!("  ┌───┬───┬───┐");
     for (i, row) in board.iter().enumerate() {
