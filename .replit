@@ -1,0 +1,9 @@
+modules = ["rust-stable", "nix", "bash"]
+run = "cargo run"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "cargo run"]
+
